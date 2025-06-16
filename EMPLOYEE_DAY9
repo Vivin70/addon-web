@@ -1,0 +1,282 @@
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database employee
+    -> ;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use employee
+Database changed
+mysql> create table employee(employee_id int primary key,name varchar(20),dept varchar(20),salary int,join_date date);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| employee           |
+| information_schema |
+| javaaddon          |
+| library            |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
++--------------------+
+7 rows in set (0.01 sec)
+
+mysql> show tables;
++--------------------+
+| Tables_in_employee |
++--------------------+
+| employee           |
++--------------------+
+1 row in set (0.06 sec)
+
+mysql> insert into employee values(;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1
+mysql> desp employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'desp employee' at line 1
+mysql> deps employee
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'deps employee' at line 1
+mysql> describe employee;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| employee_id | int(11)     | NO   | PRI | NULL    |       |
+| name        | varchar(20) | YES  |     | NULL    |       |
+| dept        | varchar(20) | YES  |     | NULL    |       |
+| salary      | int(11)     | YES  |     | NULL    |       |
+| join_date   | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.04 sec)
+
+mysql> desc employee;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| employee_id | int(11)     | NO   | PRI | NULL    |       |
+| name        | varchar(20) | YES  |     | NULL    |       |
+| dept        | varchar(20) | YES  |     | NULL    |       |
+| salary      | int(11)     | YES  |     | NULL    |       |
+| join_date   | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.02 sec)
+
+mysql> insert into employee values(01,NULL,NULL,NULL,23.06.2025);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.2025)' at line 1
+mysql> insert into employee values(01,NULL,NULL,NULL,23|06|2025);
+Query OK, 1 row affected, 1 warning (0.04 sec)
+
+mysql> select *from employee;
++-------------+------+------+--------+------------+
+| employee_id | name | dept | salary | join_date  |
++-------------+------+------+--------+------------+
+|           1 | NULL | NULL |   NULL | 0000-00-00 |
++-------------+------+------+--------+------------+
+1 row in set (0.03 sec)
+
+mysql> insert into employee values(01,NULL,NULL,NULL,2025|06|12);
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+mysql> insert into employee values(02,NULL,NULL,NULL,2025|06|12);
+Query OK, 1 row affected, 1 warning (0.01 sec)
+
+mysql> select *from employee;
++-------------+------+------+--------+------------+
+| employee_id | name | dept | salary | join_date  |
++-------------+------+------+--------+------------+
+|           1 | NULL | NULL |   NULL | 0000-00-00 |
+|           2 | NULL | NULL |   NULL | 0000-00-00 |
++-------------+------+------+--------+------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into employee values(01,NULL,NULL,NULL,23-06-2025);
+ERROR 1062 (23000): Duplicate entry '1' for key 'PRIMARY'
+mysql> insert into employee values(03,NULL,NULL,NULL,23-06-2025);
+Query OK, 1 row affected, 1 warning (0.03 sec)
+
+mysql> select *from employee;
++-------------+------+------+--------+------------+
+| employee_id | name | dept | salary | join_date  |
++-------------+------+------+--------+------------+
+|           1 | NULL | NULL |   NULL | 0000-00-00 |
+|           2 | NULL | NULL |   NULL | 0000-00-00 |
+|           3 | NULL | NULL |   NULL | 0000-00-00 |
++-------------+------+------+--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into employee values(04,NULL,NULL,NULL,2025-06-12);
+Query OK, 1 row affected, 1 warning (0.05 sec)
+
+mysql> select *from employee;
++-------------+------+------+--------+------------+
+| employee_id | name | dept | salary | join_date  |
++-------------+------+------+--------+------------+
+|           1 | NULL | NULL |   NULL | 0000-00-00 |
+|           2 | NULL | NULL |   NULL | 0000-00-00 |
+|           3 | NULL | NULL |   NULL | 0000-00-00 |
+|           4 | NULL | NULL |   NULL | 0000-00-00 |
++-------------+------+------+--------+------------+
+4 rows in set (0.00 sec)
+
+mysql> insert into employee values(04,NULL,NULL,NULL,'2025-06-12');
+ERROR 1062 (23000): Duplicate entry '4' for key 'PRIMARY'
+mysql> insert into employee values(05,NULL,NULL,NULL,'2025-06-12');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from employee;
++-------------+------+------+--------+------------+
+| employee_id | name | dept | salary | join_date  |
++-------------+------+------+--------+------------+
+|           1 | NULL | NULL |   NULL | 0000-00-00 |
+|           2 | NULL | NULL |   NULL | 0000-00-00 |
+|           3 | NULL | NULL |   NULL | 0000-00-00 |
+|           4 | NULL | NULL |   NULL | 0000-00-00 |
+|           5 | NULL | NULL |   NULL | 2025-06-12 |
++-------------+------+------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> update employee set join_date="NULL";
+Query OK, 1 row affected, 5 warnings (0.04 sec)
+Rows matched: 5  Changed: 1  Warnings: 5
+
+mysql> select *from employee;
++-------------+------+------+--------+------------+
+| employee_id | name | dept | salary | join_date  |
++-------------+------+------+--------+------------+
+|           1 | NULL | NULL |   NULL | 0000-00-00 |
+|           2 | NULL | NULL |   NULL | 0000-00-00 |
+|           3 | NULL | NULL |   NULL | 0000-00-00 |
+|           4 | NULL | NULL |   NULL | 0000-00-00 |
+|           5 | NULL | NULL |   NULL | 0000-00-00 |
++-------------+------+------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> update employee set name="Vivin",dept=
+    -> "ML",salayr=25000,join_date='2025-06-23' where employee_id=1;
+ERROR 1054 (42S22): Unknown column 'salayr' in 'field list'
+mysql> "ML",salary=25000,join_date='2025-06-23' where employee_id=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '"ML",salary=25000,join_date='2025-06-23' where employee_id=1' at line 1
+mysql> update employee set name="Vivin",dept=
+    -> "ML",salary=25000,join_date='2025-06-23' where employee_id=1;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set name="Kaja",dept=
+    -> "wd",salary=25000,join_date='2025-06-23' where employee_id=2;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set name="Kaja",dept=
+    -> "fsd",salary=25000,join_date='2025-06-23' where employee_id=3;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee set name="Sriharish",dept=
+    -> 'wd',salary=15000,join_date='2025-12-31'  where employee_id=4;
+Query OK, 1 row affected (0.02 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select *from employee;
++-------------+-----------+------+--------+------------+
+| employee_id | name      | dept | salary | join_date  |
++-------------+-----------+------+--------+------------+
+|           1 | Vivin     | ML   |  25000 | 2025-06-23 |
+|           2 | Kaja      | wd   |  25000 | 2025-06-23 |
+|           3 | Kaja      | fsd  |  25000 | 2025-06-23 |
+|           4 | Sriharish | wd   |  15000 | 2025-12-31 |
+|           5 | NULL      | NULL |   NULL | 0000-00-00 |
++-------------+-----------+------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> update employee set name="abdul",dept=
+    -> 'wd',salary=15000,join_date='2025-12-31'  where employee_id=5;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select *from employee;
++-------------+-----------+------+--------+------------+
+| employee_id | name      | dept | salary | join_date  |
++-------------+-----------+------+--------+------------+
+|           1 | Vivin     | ML   |  25000 | 2025-06-23 |
+|           2 | Kaja      | wd   |  25000 | 2025-06-23 |
+|           3 | Kaja      | fsd  |  25000 | 2025-06-23 |
+|           4 | Sriharish | wd   |  15000 | 2025-12-31 |
+|           5 | abdul     | wd   |  15000 | 2025-12-31 |
++-------------+-----------+------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into employee values(6,"raj","ims",10000,'2025-03-12' );
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from employee where salary<=15000
+    -> ;
++-------------+-----------+------+--------+------------+
+| employee_id | name      | dept | salary | join_date  |
++-------------+-----------+------+--------+------------+
+|           4 | Sriharish | wd   |  15000 | 2025-12-31 |
+|           5 | abdul     | wd   |  15000 | 2025-12-31 |
+|           6 | raj       | ims  |  10000 | 2025-03-12 |
++-------------+-----------+------+--------+------------+
+3 rows in set (0.04 sec)
+
+mysql> select * from employee order by salary;
++-------------+-----------+------+--------+------------+
+| employee_id | name      | dept | salary | join_date  |
++-------------+-----------+------+--------+------------+
+|           6 | raj       | ims  |  10000 | 2025-03-12 |
+|           4 | Sriharish | wd   |  15000 | 2025-12-31 |
+|           5 | abdul     | wd   |  15000 | 2025-12-31 |
+|           1 | Vivin     | ML   |  25000 | 2025-06-23 |
+|           2 | Kaja      | wd   |  25000 | 2025-06-23 |
+|           3 | Kaja      | fsd  |  25000 | 2025-06-23 |
++-------------+-----------+------+--------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from employee order by salary desp;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'desp' at line 1
+mysql> select * from employee order by salary desc;
++-------------+-----------+------+--------+------------+
+| employee_id | name      | dept | salary | join_date  |
++-------------+-----------+------+--------+------------+
+|           1 | Vivin     | ML   |  25000 | 2025-06-23 |
+|           2 | Kaja      | wd   |  25000 | 2025-06-23 |
+|           3 | Kaja      | fsd  |  25000 | 2025-06-23 |
+|           4 | Sriharish | wd   |  15000 | 2025-12-31 |
+|           5 | abdul     | wd   |  15000 | 2025-12-31 |
+|           6 | raj       | ims  |  10000 | 2025-03-12 |
++-------------+-----------+------+--------+------------+
+6 rows in set (0.00 sec)
+
+mysql> update employee set salary=salary+5000;
+Query OK, 6 rows affected (0.04 sec)
+Rows matched: 6  Changed: 6  Warnings: 0
+
+mysql> select * from employee order by salary desc;
++-------------+-----------+------+--------+------------+
+| employee_id | name      | dept | salary | join_date  |
++-------------+-----------+------+--------+------------+
+|           1 | Vivin     | ML   |  30000 | 2025-06-23 |
+|           2 | Kaja      | wd   |  30000 | 2025-06-23 |
+|           3 | Kaja      | fsd  |  30000 | 2025-06-23 |
+|           4 | Sriharish | wd   |  20000 | 2025-12-31 |
+|           5 | abdul     | wd   |  20000 | 2025-12-31 |
+|           6 | raj       | ims  |  15000 | 2025-03-12 |
++-------------+-----------+------+--------+------------+
+6 rows in set (0.00 sec)
+
+mysql>  rename table employee to emp;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> select * from emp
+    -> ;
++-------------+-----------+------+--------+------------+
+| employee_id | name      | dept | salary | join_date  |
++-------------+-----------+------+--------+------------+
+|           1 | Vivin     | ML   |  30000 | 2025-06-23 |
+|           2 | Kaja      | wd   |  30000 | 2025-06-23 |
+|           3 | Kaja      | fsd  |  30000 | 2025-06-23 |
+|           4 | Sriharish | wd   |  20000 | 2025-12-31 |
+|           5 | abdul     | wd   |  20000 | 2025-12-31 |
+|           6 | raj       | ims  |  15000 | 2025-03-12 |
++-------------+-----------+------+--------+------------+
+6 rows in set (0.00 sec)
