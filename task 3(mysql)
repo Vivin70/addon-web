@@ -1,0 +1,252 @@
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 5.5.5-10.4.32-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> -- Create database
+mysql> CREATE DATABASE SchoolAndCustomerDB;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> USE SchoolAndCustomerDB;
+Database changed
+mysql>
+mysql> -- Create Students table
+mysql> CREATE TABLE Students (
+    ->     StudentID INT PRIMARY KEY AUTO_INCREMENT,
+    ->     Name VARCHAR(100),
+    ->     CourseID INT,
+    ->     Marks INT
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql>
+mysql> -- Create Courses table
+mysql> CREATE TABLE Courses (
+    ->     CourseID INT PRIMARY KEY AUTO_INCREMENT,
+    ->     CourseName VARCHAR(100),
+    ->     Fees DECIMAL(10,2)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> -- Create Books table
+mysql> CREATE TABLE Books (
+    ->     BookID INT PRIMARY KEY AUTO_INCREMENT,
+    ->     Title VARCHAR(200),
+    ->     Author VARCHAR(100),
+    ->     Keyword VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> -- Create Customers table (for filtering system)
+mysql> CREATE TABLE Customers (
+    ->     CustomerID INT PRIMARY KEY AUTO_INCREMENT,
+    ->     Name VARCHAR(100),
+    ->     Email VARCHAR(100),
+    ->     Phone VARCHAR(15),
+    ->     City VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> -- Insert sample data into Students (20 records)
+mysql> INSERT INTO Students (Name, CourseID, Marks) VALUES
+    -> ('Alice', 1, 85), ('Bob', 2, 78), ('Charlie', 1, 90), ('David', 3, 65),
+    -> ('Eve', 2, 88), ('Frank', 1, 82), ('Grace', 3, 75), ('Hannah', 2, 95),
+    -> ('Ian', 3, 80), ('Jack', 1, 70), ('Kate', 2, 85), ('Leo', 3, 60),
+    -> ('Mona', 1, 89), ('Nina', 2, 92), ('Oscar', 3, 73), ('Paul', 1, 84),
+    -> ('Quinn', 2, 77), ('Rita', 3, 83), ('Sam', 1, 91), ('Tina', 2, 79);
+Query OK, 20 rows affected (0.01 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> -- Insert sample data into Courses (3 records)
+mysql> INSERT INTO Courses (CourseName, Fees) VALUES
+    -> ('Mathematics', 5000.00), ('Science', 5500.00), ('History', 4500.00);
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> -- Insert sample data into Books (20 records)
+mysql> INSERT INTO Books (Title, Author, Keyword) VALUES
+    -> ('Learning SQL', 'Alan Beaulieu', 'SQL'),
+    -> ('Mastering Python', 'John Doe', 'Python'),
+    -> ('History of Europe', 'Jane Smith', 'History'),
+    -> ('Science Experiments', 'Albert Einstein', 'Science'),
+    -> ('Advanced Mathematics', 'Isaac Newton', 'Math'),
+    -> ('Database Systems', 'C. J. Date', 'SQL'),
+    -> ('Python for Data Science', 'Jake VanderPlas', 'Python'),
+    -> ('World War II', 'Max Hastings', 'History'),
+    -> ('Physics Fundamentals', 'Richard Feynman', 'Science'),
+    -> ('Introduction to Algebra', 'Leonard Euler', 'Math'),
+    -> ('SQL Cookbook', 'Anthony Molinaro', 'SQL'),
+    -> ('Python Machine Learning', 'Sebastian Raschka', 'Python'),
+    -> ('Ancient Civilizations', 'Mary Beard', 'History'),
+    -> ('Chemistry Basics', 'Marie Curie', 'Science'),
+    -> ('Calculus Made Easy', 'Silvanus P. Thompson', 'Math'),
+    -> ('Database Design', 'Hector Garcia-Molina', 'SQL'),
+    -> ('Deep Learning with Python', 'Francois Chollet', 'Python'),
+    -> ('Medieval Europe', 'Barbara Tuchman', 'History'),
+    -> ('Biology 101', 'Charles Darwin', 'Science'),
+    -> ('Linear Algebra', 'Gilbert Strang', 'Math');
+Query OK, 20 rows affected (0.01 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> -- Insert sample data into Customers (20 records)
+mysql> INSERT INTO Customers (Name, Email, Phone, City) VALUES
+    -> ('John Smith', 'john@example.com', '1234567890', 'New York'),
+    -> ('Jane Doe', 'jane@example.com', '0987654321', 'Los Angeles'),
+    -> ('Mike Brown', 'mike@example.com', '5556667777', 'Chicago'),
+    -> ('Lucy Gray', 'lucy@example.com', '4445556666', 'Houston'),
+    -> ('Emma White', 'emma@example.com', '2223334444', 'Phoenix'),
+    -> ('Chris Green', 'chris@example.com', '1112223333', 'Philadelphia'),
+    -> ('Anna Blue', 'anna@example.com', '9998887777', 'San Antonio'),
+    -> ('David Black', 'david@example.com', '8887776666', 'San Diego'),
+    -> ('Olivia King', 'olivia@example.com', '7776665555', 'Dallas'),
+    -> ('Ethan Scott', 'ethan@example.com', '6665554444', 'San Jose'),
+    -> ('Sophia Adams', 'sophia@example.com', '5554443333', 'Austin'),
+    -> ('Mason Lee', 'mason@example.com', '4443332222', 'Jacksonville'),
+    -> ('Isabella Harris', 'isabella@example.com', '3332221111', 'Fort Worth'),
+    -> ('Logan Clark', 'logan@example.com', '2221110000', 'Columbus'),
+    -> ('Mia Lewis', 'mia@example.com', '1110009999', 'Charlotte'),
+    -> ('Lucas Young', 'lucas@example.com', '0009998888', 'San Francisco'),
+    -> ('Ava Walker', 'ava@example.com', '9998887776', 'Indianapolis'),
+    -> ('Elijah Hall', 'elijah@example.com', '8887776665', 'Seattle'),
+    -> ('Amelia Allen', 'amelia@example.com', '7776665554', 'Denver'),
+    -> ('Benjamin Wright', 'benjamin@example.com', '6665554443', 'Washington');
+Query OK, 20 rows affected (0.01 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+mysql> select * from customers;
++------------+-----------------+----------------------+------------+---------------+
+| CustomerID | Name            | Email                | Phone      | City          |
++------------+-----------------+----------------------+------------+---------------+
+|          1 | John Smith      | john@example.com     | 1234567890 | New York      |
+|          2 | Jane Doe        | jane@example.com     | 0987654321 | Los Angeles   |
+|          3 | Mike Brown      | mike@example.com     | 5556667777 | Chicago       |
+|          4 | Lucy Gray       | lucy@example.com     | 4445556666 | Houston       |
+|          5 | Emma White      | emma@example.com     | 2223334444 | Phoenix       |
+|          6 | Chris Green     | chris@example.com    | 1112223333 | Philadelphia  |
+|          7 | Anna Blue       | anna@example.com     | 9998887777 | San Antonio   |
+|          8 | David Black     | david@example.com    | 8887776666 | San Diego     |
+|          9 | Olivia King     | olivia@example.com   | 7776665555 | Dallas        |
+|         10 | Ethan Scott     | ethan@example.com    | 6665554444 | San Jose      |
+|         11 | Sophia Adams    | sophia@example.com   | 5554443333 | Austin        |
+|         12 | Mason Lee       | mason@example.com    | 4443332222 | Jacksonville  |
+|         13 | Isabella Harris | isabella@example.com | 3332221111 | Fort Worth    |
+|         14 | Logan Clark     | logan@example.com    | 2221110000 | Columbus      |
+|         15 | Mia Lewis       | mia@example.com      | 1110009999 | Charlotte     |
+|         16 | Lucas Young     | lucas@example.com    | 0009998888 | San Francisco |
+|         17 | Ava Walker      | ava@example.com      | 9998887776 | Indianapolis  |
+|         18 | Elijah Hall     | elijah@example.com   | 8887776665 | Seattle       |
+|         19 | Amelia Allen    | amelia@example.com   | 7776665554 | Denver        |
+|         20 | Benjamin Wright | benjamin@example.com | 6665554443 | Washington    |
++------------+-----------------+----------------------+------------+---------------+
+20 rows in set (0.00 sec)
+
+mysql> select * from books;
++--------+---------------------------+----------------------+---------+
+| BookID | Title                     | Author               | Keyword |
++--------+---------------------------+----------------------+---------+
+|      1 | Learning SQL              | Alan Beaulieu        | SQL     |
+|      2 | Mastering Python          | John Doe             | Python  |
+|      3 | History of Europe         | Jane Smith           | History |
+|      4 | Science Experiments       | Albert Einstein      | Science |
+|      5 | Advanced Mathematics      | Isaac Newton         | Math    |
+|      6 | Database Systems          | C. J. Date           | SQL     |
+|      7 | Python for Data Science   | Jake VanderPlas      | Python  |
+|      8 | World War II              | Max Hastings         | History |
+|      9 | Physics Fundamentals      | Richard Feynman      | Science |
+|     10 | Introduction to Algebra   | Leonard Euler        | Math    |
+|     11 | SQL Cookbook              | Anthony Molinaro     | SQL     |
+|     12 | Python Machine Learning   | Sebastian Raschka    | Python  |
+|     13 | Ancient Civilizations     | Mary Beard           | History |
+|     14 | Chemistry Basics          | Marie Curie          | Science |
+|     15 | Calculus Made Easy        | Silvanus P. Thompson | Math    |
+|     16 | Database Design           | Hector Garcia-Molina | SQL     |
+|     17 | Deep Learning with Python | Francois Chollet     | Python  |
+|     18 | Medieval Europe           | Barbara Tuchman      | History |
+|     19 | Biology 101               | Charles Darwin       | Science |
+|     20 | Linear Algebra            | Gilbert Strang       | Math    |
++--------+---------------------------+----------------------+---------+
+20 rows in set (0.00 sec)
+
+mysql> select *from students
+    -> ;
++-----------+---------+----------+-------+
+| StudentID | Name    | CourseID | Marks |
++-----------+---------+----------+-------+
+|         1 | Alice   |        1 |    85 |
+|         2 | Bob     |        2 |    78 |
+|         3 | Charlie |        1 |    90 |
+|         4 | David   |        3 |    65 |
+|         5 | Eve     |        2 |    88 |
+|         6 | Frank   |        1 |    82 |
+|         7 | Grace   |        3 |    75 |
+|         8 | Hannah  |        2 |    95 |
+|         9 | Ian     |        3 |    80 |
+|        10 | Jack    |        1 |    70 |
+|        11 | Kate    |        2 |    85 |
+|        12 | Leo     |        3 |    60 |
+|        13 | Mona    |        1 |    89 |
+|        14 | Nina    |        2 |    92 |
+|        15 | Oscar   |        3 |    73 |
+|        16 | Paul    |        1 |    84 |
+|        17 | Quinn   |        2 |    77 |
+|        18 | Rita    |        3 |    83 |
+|        19 | Sam     |        1 |    91 |
+|        20 | Tina    |        2 |    79 |
++-----------+---------+----------+-------+
+20 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Students WHERE Marks > 80;
++-----------+---------+----------+-------+
+| StudentID | Name    | CourseID | Marks |
++-----------+---------+----------+-------+
+|         1 | Alice   |        1 |    85 |
+|         3 | Charlie |        1 |    90 |
+|         5 | Eve     |        2 |    88 |
+|         6 | Frank   |        1 |    82 |
+|         8 | Hannah  |        2 |    95 |
+|        11 | Kate    |        2 |    85 |
+|        13 | Mona    |        1 |    89 |
+|        14 | Nina    |        2 |    92 |
+|        16 | Paul    |        1 |    84 |
+|        18 | Rita    |        3 |    83 |
+|        19 | Sam     |        1 |    91 |
++-----------+---------+----------+-------+
+11 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Courses ORDER BY Fees ASC;
++----------+-------------+---------+
+| CourseID | CourseName  | Fees    |
++----------+-------------+---------+
+|        3 | History     | 4500.00 |
+|        1 | Mathematics | 5000.00 |
+|        2 | Science     | 5500.00 |
++----------+-------------+---------+
+3 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT * FROM Books WHERE Keyword LIKE '%Python%';
++--------+---------------------------+-------------------+---------+
+| BookID | Title                     | Author            | Keyword |
++--------+---------------------------+-------------------+---------+
+|      2 | Mastering Python          | John Doe          | Python  |
+|      7 | Python for Data Science   | Jake VanderPlas   | Python  |
+|     12 | Python Machine Learning   | Sebastian Raschka | Python  |
+|     17 | Deep Learning with Python | Francois Chollet  | Python  |
++--------+---------------------------+-------------------+---------+
+4 rows in set (0.00 sec)
