@@ -1,0 +1,200 @@
+mysql> CREATE DATABASE CompanyDB;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> USE CompanyDB;
+Database changed
+mysql>
+mysql> CREATE TABLE Students (
+    ->     StudentID INT PRIMARY KEY AUTO_INCREMENT,
+    ->     Name VARCHAR(100),
+    ->     CourseID INT,
+    ->     Marks INT
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>
+mysql> CREATE TABLE Courses (
+    ->     CourseID INT PRIMARY KEY AUTO_INCREMENT,
+    ->     CourseName VARCHAR(100)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>
+mysql> CREATE TABLE Employees (
+    ->     EmployeeID INT PRIMARY KEY AUTO_INCREMENT,
+    ->     Name VARCHAR(100),
+    ->     Department VARCHAR(50),
+    ->     Salary DECIMAL(10,2)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>
+mysql> CREATE TABLE Products (
+    ->     ProductID INT PRIMARY KEY AUTO_INCREMENT,
+    ->     ProductName VARCHAR(100),
+    ->     Price DECIMAL(10,2)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>
+mysql> CREATE TABLE Sales (
+    ->     SaleID INT PRIMARY KEY AUTO_INCREMENT,
+    ->     ProductID INT,
+    ->     Quantity INT,
+    ->     SaleDate DATE,
+    ->     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO Courses (CourseName) VALUES
+    -> ('Mathematics'),
+    -> ('Science'),
+    -> ('History');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> INSERT INTO Students (Name, CourseID, Marks) VALUES
+    -> ('Alice', 1, 85), ('Bob', 2, 78), ('Charlie', 1, 90), ('David', 3, 65),
+    -> ('Eve', 2, 88), ('Frank', 1, 82), ('Grace', 3, 75), ('Hannah', 2, 95),
+    -> ('Ian', 3, 80), ('Jack', 1, 70), ('Kate', 2, 85), ('Leo', 3, 60),
+    -> ('Mona', 1, 89), ('Nina', 2, 92), ('Oscar', 3, 73), ('Paul', 1, 84),
+    -> ('Quinn', 2, 77), ('Rita', 3, 83), ('Sam', 1, 91), ('Tina', 2, 79);
+Query OK, 20 rows affected (0.01 sec)
+Records: 20  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> INSERT INTO Employees (Name, Department, Salary) VALUES
+    -> ('John Smith', 'HR', 5000),
+    -> ('Jane Doe', 'IT', 7000),
+    -> ('Mike Brown', 'Finance', 6000),
+    -> ('Lucy Gray', 'HR', 5200),
+    -> ('Emma White', 'IT', 7300),
+    -> ('Chris Green', 'Finance', 5900),
+    -> ('Anna Blue', 'IT', 7200),
+    -> ('David Black', 'HR', 5100),
+    -> ('Olivia King', 'Finance', 6100),
+    -> ('Ethan Scott', 'IT', 6800);
+Query OK, 10 rows affected (0.00 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> INSERT INTO Products (ProductName, Price) VALUES
+    -> ('Laptop', 1000.00),
+    -> ('Smartphone', 700.00),
+    -> ('Tablet', 400.00),
+    -> ('Monitor', 300.00),
+    -> ('Keyboard', 50.00),
+    -> ('Mouse', 40.00),
+    -> ('Printer', 150.00),
+    -> ('Router', 120.00),
+    -> ('Webcam', 80.00),
+    -> ('External HDD', 200.00);
+Query OK, 10 rows affected (0.00 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> INSERT INTO Sales (ProductID, Quantity, SaleDate) VALUES
+    -> (1, 5, '2025-01-10'),
+    -> (2, 10, '2025-01-11'),
+    -> (3, 7, '2025-01-12'),
+    -> (4, 3, '2025-01-13'),
+    -> (5, 12, '2025-01-14'),
+    -> (6, 15, '2025-01-15'),
+    -> (7, 4, '2025-01-16'),
+    -> (8, 8, '2025-01-17'),
+    -> (9, 6, '2025-01-18'),
+    -> (10, 9, '2025-01-19'),
+    -> (1, 2, '2025-01-20'),
+    -> (2, 1, '2025-01-21'),
+    -> (3, 3, '2025-01-22'),
+    -> (4, 5, '2025-01-23'),
+    -> (5, 7, '2025-01-24');
+Query OK, 15 rows affected (0.01 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+mysql> SELECT c.CourseName, COUNT(s.StudentID) AS StudentCount
+    -> FROM Students s
+    -> JOIN Courses c ON s.CourseID = c.CourseID
+    -> GROUP BY c.CourseName;
++-------------+--------------+
+| CourseName  | StudentCount |
++-------------+--------------+
+| History     |            6 |
+| Mathematics |            7 |
+| Science     |            7 |
++-------------+--------------+
+3 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT Department, AVG(Salary) AS AverageSalary
+    -> FROM Employees
+    -> GROUP BY Department;
++------------+---------------+
+| Department | AverageSalary |
++------------+---------------+
+| Finance    |   6000.000000 |
+| HR         |   5100.000000 |
+| IT         |   7075.000000 |
++------------+---------------+
+3 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT MAX(Price) AS MaxPrice, MIN(Price) AS MinPrice FROM Products;
++----------+----------+
+| MaxPrice | MinPrice |
++----------+----------+
+|  1000.00 |    40.00 |
++----------+----------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> SELECT p.ProductName, SUM(s.Quantity) AS TotalQuantitySold
+    -> FROM Sales s
+    -> JOIN Products p ON s.ProductID = p.ProductID
+    -> GROUP BY p.ProductName;
++--------------+-------------------+
+| ProductName  | TotalQuantitySold |
++--------------+-------------------+
+| External HDD |                 9 |
+| Keyboard     |                19 |
+| Laptop       |                 7 |
+| Monitor      |                 8 |
+| Mouse        |                15 |
+| Printer      |                 4 |
+| Router       |                 8 |
+| Smartphone   |                11 |
+| Tablet       |                10 |
+| Webcam       |                 6 |
++--------------+-------------------+
+10 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT Department, COUNT(*) AS NumEmployees, AVG(Salary) AS AvgSalary
+    -> FROM Employees
+    -> GROUP BY Department;
++------------+--------------+-------------+
+| Department | NumEmployees | AvgSalary   |
++------------+--------------+-------------+
+| Finance    |            3 | 6000.000000 |
+| HR         |            3 | 5100.000000 |
+| IT         |            4 | 7075.000000 |
++------------+--------------+-------------+
+3 rows in set (0.00 sec)
+
+mysql>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
