@@ -1,0 +1,242 @@
+
+mysql> show databases;
++---------------------+
+| Database            |
++---------------------+
+| companydb           |
+| employee            |
+| information_schema  |
+| javaaddon           |
+| library             |
+| mysql               |
+| performance_schema  |
+| phpmyadmin          |
+| schoolandcustomerdb |
++---------------------+
+9 rows in set (0.00 sec)
+
+mysql> use companydb
+Database changed
+mysql> show tables
+    -> ;
++---------------------+
+| Tables_in_companydb |
++---------------------+
+| courses             |
+| employees           |
+| products            |
+| sales               |
+| students            |
++---------------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT s.student_id, s.name, m.subject, m.marks
+    -> FROM Students s
+    -> JOIN Marks m ON s.student_id = m.student_id;
+ERROR 1146 (42S02): Table 'companydb.marks' doesn't exist
+mysql> desc students;
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| StudentID | int(11)      | NO   | PRI | NULL    | auto_increment |
+| Name      | varchar(100) | YES  |     | NULL    |                |
+| CourseID  | int(11)      | YES  |     | NULL    |                |
+| Marks     | int(11)      | YES  |     | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
+4 rows in set (0.01 sec)
+
+mysql> CREATE DATABASE CollegeDB;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> CREATE DATABASE SalesDB;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> USE CollegeDB;
+Database changed
+mysql>
+mysql> CREATE TABLE Students (
+    ->   StudentID INT PRIMARY KEY AUTO_INCREMENT,
+    ->   Name VARCHAR(100),
+    ->   DepartmentID INT
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql>
+mysql> INSERT INTO Students (Name, DepartmentID)
+    -> VALUES
+    -> ('Alice', 1), ('Bob', 2), ('Charlie', 1), ('Diana', 3);
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Marks (
+    ->   MarkID INT PRIMARY KEY AUTO_INCREMENT,
+    ->   StudentID INT,
+    ->   Subject VARCHAR(100),
+    ->   Marks INT
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql>
+mysql> INSERT INTO Marks (StudentID, Subject, Marks)
+    -> VALUES
+    -> (1, 'Math', 85), (1, 'Science', 90),
+    -> (2, 'Math', 78), (2, 'Science', 80),
+    -> (3, 'Math', 92), (3, 'Science', 88),
+    -> (4, 'Math', 70), (4, 'Science', 75);
+Query OK, 8 rows affected (0.01 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Departments (
+    ->   DepartmentID INT PRIMARY KEY,
+    ->   DepartmentName VARCHAR(100)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql>
+mysql> INSERT INTO Departments (DepartmentID, DepartmentName)
+    -> VALUES
+    -> (1, 'Computer Science'), (2, 'Mechanical'), (3, 'Civil');
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> USE SalesDB;
+Database changed
+mysql>
+mysql> CREATE TABLE Customers (
+    ->   CustomerID INT PRIMARY KEY,
+    ->   CustomerName VARCHAR(100)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>
+mysql> INSERT INTO Customers (CustomerID, CustomerName)
+    -> VALUES
+    -> (101, 'John'), (102, 'Emma');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Orders (
+    ->   OrderID INT PRIMARY KEY,
+    ->   CustomerID INT,
+    ->   OrderDate DATE
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+mysql> INSERT INTO Orders (OrderID, CustomerID, OrderDate)
+    -> VALUES
+    -> (201, 101, '2025-06-10'), (202, 102, '2025-06-15');
+Query OK, 2 rows affected (0.00 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> USE CollegeDB;
+Database changed
+mysql>
+mysql> SELECT s.StudentID, s.Name, m.Subject, m.Marks
+    -> FROM Students s
+    -> JOIN Marks m ON s.StudentID = m.StudentID;
++-----------+---------+---------+-------+
+| StudentID | Name    | Subject | Marks |
++-----------+---------+---------+-------+
+|         1 | Alice   | Math    |    85 |
+|         1 | Alice   | Science |    90 |
+|         2 | Bob     | Math    |    78 |
+|         2 | Bob     | Science |    80 |
+|         3 | Charlie | Math    |    92 |
+|         3 | Charlie | Science |    88 |
+|         4 | Diana   | Math    |    70 |
+|         4 | Diana   | Science |    75 |
++-----------+---------+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT Name
+    -> FROM Students
+    -> WHERE StudentID = (
+    ->   SELECT StudentID
+    ->   FROM Marks
+    ->   GROUP BY StudentID
+    ->   ORDER BY AVG(Marks) DESC
+    ->   LIMIT 1
+    -> );
++---------+
+| Name    |
++---------+
+| Charlie |
++---------+
+1 row in set (0.00 sec)
+
+mysql> USE SalesDB;
+Database changed
+mysql>
+mysql> SELECT o.OrderID, o.OrderDate, c.CustomerName
+    -> FROM Orders o
+    -> JOIN Customers c ON o.CustomerID = c.CustomerID;
++---------+------------+--------------+
+| OrderID | OrderDate  | CustomerName |
++---------+------------+--------------+
+|     201 | 2025-06-10 | John         |
+|     202 | 2025-06-15 | Emma         |
++---------+------------+--------------+
+2 rows in set (0.03 sec)
+
+mysql> USE CollegeDB;
+Database changed
+mysql>
+mysql> SELECT s.Name, d.DepartmentName, m.Subject, m.Marks
+    -> FROM Students s
+    -> JOIN Departments d ON s.DepartmentID = d.DepartmentID
+    -> JOIN Marks m ON s.StudentID = m.StudentID
+    -> WHERE d.DepartmentName = 'Computer Science'
+    ->   AND m.Marks > 85;
++---------+------------------+---------+-------+
+| Name    | DepartmentName   | Subject | Marks |
++---------+------------------+---------+-------+
+| Alice   | Computer Science | Science |    90 |
+| Charlie | Computer Science | Math    |    92 |
+| Charlie | Computer Science | Science |    88 |
++---------+------------------+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT d.DepartmentName, s.Name AS StudentName, m.Subject, m.Marks
+    -> FROM Departments d
+    -> JOIN Students s ON d.DepartmentID = s.DepartmentID
+    -> JOIN Marks m ON s.StudentID = m.StudentID
+    -> ORDER BY d.DepartmentName, s.Name;
++------------------+-------------+---------+-------+
+| DepartmentName   | StudentName | Subject | Marks |
++------------------+-------------+---------+-------+
+| Civil            | Diana       | Science |    75 |
+| Civil            | Diana       | Math    |    70 |
+| Computer Science | Alice       | Math    |    85 |
+| Computer Science | Alice       | Science |    90 |
+| Computer Science | Charlie     | Math    |    92 |
+| Computer Science | Charlie     | Science |    88 |
+| Mechanical       | Bob         | Science |    80 |
+| Mechanical       | Bob         | Math    |    78 |
++------------------+-------------+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
